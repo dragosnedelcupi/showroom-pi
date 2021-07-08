@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": "../node_modules",
+    "target": "es2017",
+    "module": "commonjs",
+    "isolatedModules": false,
+    "esModuleInterop": true,
+    "types": ["node", "mocha", "cypress"]
+  },
+  "include": ["./integration/**/*.ts", "./support/index.d.ts"]
+}

@@ -1,0 +1,71 @@
+image: alpine
+
+stages:
+  - build-and-quality
+  - test
+  - mutation-test
+
+cache: &cache
+  paths:
+    - node_modules
+
+.base: &base
+  image: registry.pitechplus.com/frontend/cra-template-pi/node:12
+  tags:
+    - dind
+
+Build:
+  stage: build-and-quality
+  <<: *base
+  script:
+    - npx install-subset i build
+    - npm run build
+  artifacts:
+    paths:
+      - build
+
+Code Quality:
+  stage: build-and-quality
+  <<: *base
+  cache:
+    <<: *cache
+    policy: pull
+  script:
+    - npx install-subset i test-simple
+    - ./bin/code_quality.sh
+
+E2E Tests:
+  stage: test
+  <<: *base
+  image: registry.pitechplus.com/frontend/cra-template-pi/cypress:7.3.0
+  parallel: 2
+  cache:
+    <<: *cache
+    policy: pull
+  script:
+    - npm i --prefer-offline --no-audit
+    - npm run start-ci &
+    - npm run test:e2e:ci
+  artifacts:
+    expire_in: 2 days
+    when: always
+    paths:
+      - cypress/.results
+      - server.log
+
+Test mutations:
+  image: registry.pitechplus.com/frontend/cra-template-pi/node:12
+  tags:
+    - dind
+  stage: mutation-test
+  cache:
+    <<: *cache
+    policy: pull
+  when: manual
+  script:
+    - npm run test:mutation
+  artifacts:
+    paths:
+      - ./reports/mutation/html
+    expire_in: 2 hrs
+    name: ${CI_COMMIT_REF_NAME}

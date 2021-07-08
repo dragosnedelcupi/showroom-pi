@@ -1,0 +1,4 @@
+FROM node:12-slim
+
+RUN npm -g i install-subset
+RUN rm /usr/local/bin/yarn

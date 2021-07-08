@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+grn=$'\e[1;32m'
+red=$'\e[1;31m'
+end=$'\e[0m'
+
+echo "$grn Trying to run FE tests... $end";
+
+npm run test-ci
+
+if [ $? -eq 0 ]
+then
+echo "$grn FE tests run SUCCESSFULLY! $end";
+echo "$grn Pushing commits... $end";
+else
+echo "$red FE tests FAILED! $end";
+exit 1;
+fi

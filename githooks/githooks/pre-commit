@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+grn=$'\e[1;32m'
+red=$'\e[1;31m'
+end=$'\e[0m'
+
+VAR=$(git diff --cached | grep "^[+].*console.log")
+if [ ! -z "$VAR" ]; then
+  echo "$red You've left a console.log in one of your files! Aborting commit... $end"
+  exit 1
+fi
+
+VAR=$(git diff --cached | grep -w "^[+].*debugger")
+if [ ! -z "$VAR" ]; then
+  echo "$red You've left a debugger in one of your files! Aborting commit... $end"
+  exit 1
+fi
+
+echo "$grn Running lint $end";
+echo "$grn Please stand by... $end";
+
+npm run lint;
+
+if [ $? -eq 0 ]
+then
+echo "$grn Lint passed SUCCESSFULLY! $end";
+else
+echo "$red Lint FAILED! $end";
+echo "$red Please fix lint! You can use npm run fix to fix lint errors. Aborting commit $end";
+exit 1;
+fi

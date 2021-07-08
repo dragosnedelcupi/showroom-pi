@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind forms;
+
+.btn {
+  @apply rounded text-lg font-medium uppercase border-none cursor-pointer transition-all px-4 py-2 shadow-lg;
+
+  &Primary {
+    @apply bg-primary text-secondary hover:bg-secondary hover:text-primary;
+  }
+
+  &Danger {
+    @apply bg-danger text-white;
+  }
+}
+
+.input {
+  &Container {
+    @apply mb-4 flex flex-col pb-4;
+  }
+  &Label {
+    @apply pb-1 text-sm;
+  }
+  &Error {
+    @apply text-red-600 text-xs;
+  }
+}
+
+.form {
+  &Row {
+    @apply flex flex-col w-1/2;
+  }
+}
