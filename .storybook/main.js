@@ -7,6 +7,9 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/preset-create-react-app',
   ],
+  typescript: {
+    reactDocgen: 'none',
+  },
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: /\,css&/,
