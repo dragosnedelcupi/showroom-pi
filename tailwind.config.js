@@ -3,7 +3,7 @@ module.exports = {
   purge: [
     './src/**/*.{js,jsx,ts,tsx}',
     './public/index.html',
-    './storybook-static/index.html',
+    './storybook-static/**/*.{css, html}',
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
